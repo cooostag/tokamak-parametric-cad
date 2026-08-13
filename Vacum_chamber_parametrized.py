@@ -5,8 +5,7 @@ from sympy.abc import epsilon
 
 #When starting run python -m ocp_vscode to start the CAD viewer
 
-# Modeling the surface following  Miller et al.
-# Modeling the surface following  Miller et al.
+# Modeling the surface following  Miller et al. first of all modeling a general number of points and a closed curve
 n_points = 64  # resolution of the sampled curve
 theta = np.linspace(0, 2 * np.pi, n_points, endpoint=False)  # closed curve, don't repeat the seam point
 
@@ -22,24 +21,34 @@ vau=1
 alfa=50
 R0=alfa/epsilon
 delta_hat = np.arcsin(delta)
+
+#Outer Boundary
 R_s = R0 + alfa * np.cos(theta + delta_hat * np.sin(theta))
 Z_s = alfa * kappa * np.sin(theta)
 
-thickness = 4 # thickness of the wall
+#Introducing a Variable Thickness
+thickness_outboard = 3
+thickness_inboard = 8
+# simple smooth blend based on cos(theta): +1 at outboard (theta=0), -1 at inboard (theta=pi)
+thickness_theta = (thickness_outboard + thickness_inboard) / 2 \
+                 + (thickness_outboard - thickness_inboard) / 2 * np.cos(theta)
+#plot the function in different file to understand / remember good what the funciton does
+
+alfa_inner_theta = alfa - thickness_theta   # now a per-point array, not a scalar
+
+#thickness = 4 # thickness of the wall at constant thickness
 R_internal = 150 # distance from revolution of the center of the vacuum's chamber profile
 
-points_outer = list(zip(R_s.tolist(), Z_s.tolist()))
-#list and zip to make a 1:1 matching (and organized in a list) between the 2 coordinates to identify the points and pass it as
+points_outer = list(zip(R_s.tolist(), Z_s.tolist())) #list and zip to make a 1:1 matching (and organized in a list) between the 2 coordinates to identify the points and pass it later on in partcreation
 
 # Inner boundary: same Miller curve, smaller minor radius (alfa - thickness)
-alfa_inner = alfa - thickness
-R_s_inner = R0 + alfa_inner * np.cos(theta + delta_hat * np.sin(theta))
-Z_s_inner = alfa_inner * kappa * np.sin(theta)
+#alfa_inner = alfa - thickness
+R_s_inner = R0 + alfa_inner_theta * np.cos(theta + delta_hat * np.sin(theta))
+Z_s_inner = alfa_inner_theta * kappa * np.sin(theta)
 points_inner = list(zip(R_s_inner.tolist(), Z_s_inner.tolist()))
 
 #Cannot use offset to create a hollow circle because build123d is not able to offset a closed geometry
 #for this reason instead of using offset I will subtract 2 different profiles. This will be useful to
-#model a not constant thicknes
 
 with BuildSketch() as vessel_profile:
     with BuildLine():
@@ -55,7 +64,7 @@ vessel_face = outer_face - inner_face  # or Face subtraction, check exact API
 
 moved_vessel_face = vessel_face.moved(Location((R_internal, 0, 0)))
 
-#show(moved_vessel_face)
+show(moved_vessel_face)
 
 print ("sub part 1")
 
@@ -65,7 +74,7 @@ with BuildPart() as VC_3D:
     revolve(profiles=moved_vessel_face, axis=Axis.Y, revolution_arc=360)
 
 # Show the full 3D vessel!
-#show(VC_3D)
+show(VC_3D)
 
 print ("Sub part 2")
 
