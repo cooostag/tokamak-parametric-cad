@@ -47,6 +47,12 @@ R_s_inner = R0 + alfa_inner_theta * np.cos(theta + delta_hat * np.sin(theta))
 Z_s_inner = alfa_inner_theta * kappa * np.sin(theta)
 points_inner = list(zip(R_s_inner.tolist(), Z_s_inner.tolist()))
 
+
+#sanity check: make sure thickness_theta never gets so large relative to alfa (especially near high-curvature regions like the top/bottom point at high κ/δ)
+print (f"The minimum alfa theta is:{ alfa_inner_theta.min()} and compares to alfa that is {alfa}")
+#at the moment The minimum alfa theta is:42.0 and compares to alfa that is 50
+#follow up with Claude what means too large
+
 #Cannot use offset to create a hollow circle because build123d is not able to offset a closed geometry
 #for this reason instead of using offset I will subtract 2 different profiles. This will be useful to
 
