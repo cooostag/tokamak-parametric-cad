@@ -3,6 +3,8 @@ from ocp_vscode import show
 import numpy as np
 from sympy.abc import epsilon
 
+#When starting run python -m ocp_vscode to start the CAD viewer
+
 # Modeling the surface following  Miller et al.
 # Modeling the surface following  Miller et al.
 n_points = 64  # resolution of the sampled curve
@@ -53,7 +55,7 @@ vessel_face = outer_face - inner_face  # or Face subtraction, check exact API
 
 moved_vessel_face = vessel_face.moved(Location((R_internal, 0, 0)))
 
-show(moved_vessel_face)
+#show(moved_vessel_face)
 
 print ("sub part 1")
 
@@ -63,7 +65,7 @@ with BuildPart() as VC_3D:
     revolve(profiles=moved_vessel_face, axis=Axis.Y, revolution_arc=360)
 
 # Show the full 3D vessel!
-show(VC_3D)
+#show(VC_3D)
 
 print ("Sub part 2")
 
@@ -78,22 +80,36 @@ print ("Sub part 2")
 #3 subtract the cylinder from the vacum chamber
 
 #1 create cylinder
+#2 parametric
 
 #test this
 R_port= 10
-height_port= 20
+height_port= 80
 
 #Create cylinder and put it at the right place direcly
 with BuildPart() as cylinder_base_port:
-    with Locations (R_internal,0,0):
+    with Locations((0,0,R_internal + 150)):
         Cylinder (radius=R_port, height=height_port)
 
+show  (cylinder_base_port)
 
-show (cylinder_base_port)
-#Simple addiction of parts like this is not possible
-#VC_withPort= VC_3D+cylinder_base_port
+print ("Success")
 
-#show  (VC_withPort)
+
+poloidal_theta = 45 # is the angle to parametrize the rotation of the cylinder
+cylinder_base_port = cylinder_base_port.part.rotate(Axis.Y, poloidal_theta)
+
+show  (cylinder_base_port, VC_3D)
+
+print ("Success")
+
+#use locations with rotate and an angle parametrized to decide where to cut it, it needs though to be a poloidal rotation
+# increase height of cylinder
+#show (cylinder_base_port, VC_3D)
+#Simple cut of parts like this is not possible
+VC_withPort= VC_3D.part- cylinder_base_port
+
+show  (VC_withPort)
 
 
 print ("Success")
