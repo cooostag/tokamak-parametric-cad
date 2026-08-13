@@ -15,7 +15,7 @@ theta = np.linspace(0, 2 * np.pi, n_points, endpoint=False)  # closed curve, don
 
 #the triangularity values are e=0.4, kappa=2 delta=0.4 v=1
 epsilon=0.4
-kappa=1
+kappa=2
 delta=0.75
 vau=1
 alfa=50
