@@ -12,10 +12,10 @@ gap_ : float = 5.0
 
 print ("stoP")
 
-def toroidal_coil (gap, coil_width,coil_height):
-    params_ = TokamakParams() #instiantate the class from params and calling the functions within the coil function, is it good practice?
-    coilR0 = coil_R0(params_)
-    coil_Re = coilR0 + params_.alfa + params_.thickness + gap
+def toroidal_coil (vessel_params: TokamakParams, gap, coil_width,coil_height):
+    #params_ = TokamakParams() #instiantate the class from params and calling the functions within the coil function, is it good practice?
+    coilR0 = coil_R0(vessel_params)
+    coil_Re = coilR0 + vessel_params.alfa + vessel_params.thickness + gap
 
 #Simplifcation: rectangular coil -> Improve to better geometry
     with BuildSketch() as coil_profile:
@@ -27,8 +27,8 @@ def toroidal_coil (gap, coil_width,coil_height):
 
     return coil
 
-
-TF_coil = toroidal_coil(gap_, coil_width_, coil_height_)
+params_ = TokamakParams(epsilon=0.4) #potentially I can declare a type TokamaksParams function with different epsilon =...
+TF_coil = toroidal_coil(params_,gap_, coil_width_, coil_height_)
 show(TF_coil) # remove the show, was done only for check practice
 
 print ("heyholetsgo")
