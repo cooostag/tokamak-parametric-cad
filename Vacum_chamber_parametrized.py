@@ -4,6 +4,7 @@ import numpy as np
 from sympy.abc import epsilon
 
 #When starting run python -m ocp_vscode to start the CAD viewer
+#TODO: write this as a function. 1. Call params for the params instead of defining them. 2. Then copy the logic from ToroidalF_Magnet_coil
 
 # Modeling the surface following  Miller et al. first of all modeling a general number of points and a closed curve
 n_points = 64  # resolution of the sampled curve
