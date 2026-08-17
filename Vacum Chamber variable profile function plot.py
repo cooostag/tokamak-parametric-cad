@@ -6,7 +6,7 @@ theta = np.linspace(0, 2 * np.pi, 500)
 
 # Parameters from prompt (mapping 'inner' -> inboard = 8, 'outer' -> outboard = 3)
 thickness_inboard = 8
-thickness_outboard = 3
+thickness_outboard = 4
 
 thickness_theta = (thickness_outboard + thickness_inboard) / 2 + (thickness_outboard - thickness_inboard) / 2 * np.cos(theta)
 
