@@ -37,10 +37,10 @@ def toroidal_coil (vessel_params: TokamakParams, gap, coil_thickness_in:float, c
 
     coil_face = outer_face - inner_face # or Face subtraction, check exact API
 
-    moved_coil_face = coil_face.moved(Locations(coil_Re,0,0))
+    moved_coil_face = coil_face.moved(Location((coil_Re,0,0)))
 
     with BuildPart() as coil:
-        revolve(profiles=moved_coil_face.sketch, axis=Axis.Y, revolution_arc=360)
+        revolve(profiles=moved_coil_face, axis=Axis.Y, revolution_arc=360)
 
     return coil
 
