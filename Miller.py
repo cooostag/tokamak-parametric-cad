@@ -8,7 +8,8 @@ from ocp_vscode import show
 def miller_points (n_points, params_: TokamakParams, thickness_outboard: float =0, thickness_inboard: float =0):
     theta = np.linspace(0, 2 * np.pi, n_points, endpoint=False)
 
-    if thickness_outboard != thickness_inboard:
+
+    if thickness_outboard != thickness_inboard:  #Variable thickness
         # simple smooth blend based on cos(theta): +1 at outboard (theta=0), -1 at inboard (theta=pi)
         thickness_theta = (thickness_outboard + thickness_inboard) / 2 \
                           + (thickness_outboard - thickness_inboard) / 2 * np.cos(theta)
@@ -16,7 +17,7 @@ def miller_points (n_points, params_: TokamakParams, thickness_outboard: float =
 
         alfa_theta = params_.alfa - thickness_theta
 
-    else:
+    else: #constant thickness
         alfa_theta = params_.alfa
 
     alfa_min = np.min(alfa_theta)
