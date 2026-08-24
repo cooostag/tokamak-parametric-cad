@@ -24,7 +24,6 @@ def toroidal_coil (vessel_params: TokamakParams, gap, coil_thickness_in:float, c
     outer_points = miller_points(64,vessel_params)
     inner_points = miller_points(64,vessel_params,coil_thickness_out,coil_thickness_in)
 
-#Simplifcation: rectangular coil -> Improve to better geometry
     with BuildSketch() as coil_profile:
         with BuildLine():
             Spline(*outer_points, periodic=True)
