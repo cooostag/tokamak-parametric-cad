@@ -38,6 +38,8 @@ def toroidal_coil (vessel_params: TokamakParams, gap, coil_thickness_in:float, c
 
     moved_coil_face = coil_face.moved(Location((coil_Re,0,0)))
 
+#All good so far, next change instaed of revolving create a single toroidal field magnet
+
     with BuildPart() as coil:
         revolve(profiles=moved_coil_face, axis=Axis.Y, revolution_arc=360)
 
@@ -53,3 +55,5 @@ print ("heyholetsgo")
 #def build_tf_coil(vessel_params: TokamakParams, gap: float, coil_width: float, coil_height: float):
  #   R0 = coil_R0(vessel_params)
   #  coil_center_radius = R0 + coil_bore_radius(vessel_params, gap)
+
+  #Claude proposes to change approach for the toroidal field coil and sweep along a single miller Dshape curve
