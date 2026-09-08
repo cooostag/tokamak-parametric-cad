@@ -20,10 +20,12 @@ thickness_in = 8
 thickness_out=4
 gap_ : float = 5.0 #this will be later quantity to optimize
 params_ = TokamakParams(epsilon=0.4) #potentially I can declare a type TokamaksParams function with different epsilon =...
-
+conductor_r = 4.0
 
 Vacum_Chamber = vacum_chamber(n_points, params_, thickness_in, thickness_out)
-TF_coil = toroidal_coil(params_,gap_, thickness_in, thickness_out)
+coil_alfa = params_.alfa + params_.thickness + gap_
+Coil_params= TokamakParams(alfa=coil_alfa, epsilon = coil_alfa / params_.R0)
+TF_coil = toroidal_coil(Coil_params,gap_,conductor_r)
 
 Assembly = Vacum_Chamber.part + TF_coil.part
 
