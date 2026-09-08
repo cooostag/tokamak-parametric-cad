@@ -16,41 +16,50 @@ gap_ : float = 5.0
 print ("stoP")
 #TODO: use Miller points function to create the final toroidal coil geometry to optimize
 
-def toroidal_coil (vessel_params: TokamakParams, gap, coil_thickness_in:float, coil_thickness_out:float):
+def toroidal_coil (vessel_params: TokamakParams, gap, coil_thickness_in:float, coil_thickness_out:float, conductor_radius:float):
     #params_ = TokamakParams() #instiantate the class from params and calling the functions within the coil function, is it good practice?
     coilR0 = coil_R0(vessel_params)
     coil_Re = coilR0 + vessel_params.alfa + vessel_params.thickness + gap
 
     outer_points = miller_points(64,vessel_params)
-    inner_points = miller_points(64,vessel_params,coil_thickness_out,coil_thickness_in)
+    #inner_points = miller_points(64,vessel_params,coil_thickness_out,coil_thickness_in)
 
-    with BuildSketch() as coil_profile:
-        with BuildLine():
-            Spline(*outer_points, periodic=True)
-        outer_face = make_face()
+    with BuildLine() as path:
+        Spline(*outer_points, periodic=True)  #* unpacks the list and passes every point as separate as required by Spline
 
-    with BuildSketch() as coil_profile_inner:
-        with BuildLine():
-            Spline(*inner_points, periodic=True)
-        inner_face = make_face()
+    with BuildPart() as single_tf_coil:
+        with BuildSketch(Plane(origin=path.line @ 0, z_dir=path.line % 0)) as coil_cross_section:
+            Circle(radius=conductor_radius)  # this is the coil's own "thickness" — independent, small
+        sweep(path=path.line)
 
-    coil_face = outer_face - inner_face # or Face subtraction, check exact API
-
-    moved_coil_face = coil_face.moved(Location((coil_Re,0,0)))
-
-#All good so far, next change instaed of revolving create a single toroidal field magnet
-
-    with BuildPart() as coil:
-        revolve(profiles=moved_coil_face, axis=Axis.Y, revolution_arc=360)
-
-    return coil
+    return single_tf_coil
 
 params_ = TokamakParams(epsilon=0.4) #potentially I can declare a type TokamaksParams function with different epsilon =...
-TF_coil = toroidal_coil(params_,gap_, coil_thick_in, coil_thick_out)
+conductor_r= 4.0
+TF_coil = toroidal_coil(params_,gap_, coil_thick_in, coil_thick_out, conductor_r)
 show(TF_coil) # remove the show, was done only for check practice
 
 print ("heyholetsgo")
 
+#Old code to create a revolution donut with a face
+
+#with BuildSketch() as coil_profile:
+ #   with BuildLine():
+  #      Spline(*outer_points, periodic=True)
+   # outer_face = make_face()
+
+#with BuildSketch() as coil_profile_inner:
+ #   with BuildLine():
+  #      Spline(*inner_points, periodic=True)
+   # inner_face = make_face()
+
+
+#with BuildPart() as coil:
+ #   revolve(profiles=moved_coil_face, axis=Axis.Y, revolution_arc=360)
+
+#coil_face = outer_face - inner_face  # or Face subtraction, check exact API
+
+#moved_coil_face = coil_face.moved(Location((coil_Re, 0, 0)))
 
 #def build_tf_coil(vessel_params: TokamakParams, gap: float, coil_width: float, coil_height: float):
  #   R0 = coil_R0(vessel_params)
