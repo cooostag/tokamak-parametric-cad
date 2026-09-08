@@ -16,7 +16,7 @@ gap_ : float = 5.0
 print ("stoP")
 #TODO: use Miller points function to create the final toroidal coil geometry to optimize
 
-def toroidal_coil (vessel_params: TokamakParams, gap, coil_thickness_in:float, coil_thickness_out:float, conductor_radius:float):
+def toroidal_coil (vessel_params: TokamakParams, gap,conductor_radius:float, coil_thickness_in:float=0, coil_thickness_out:float=0):
     #params_ = TokamakParams() #instiantate the class from params and calling the functions within the coil function, is it good practice?
     coilR0 = coil_R0(vessel_params)
     coil_Re = coilR0 + vessel_params.alfa + vessel_params.thickness + gap
