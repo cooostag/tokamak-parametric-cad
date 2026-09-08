@@ -23,7 +23,7 @@ def vacum_chamber (n_points, vessel_params: TokamakParams, vc_thickness_in:float
     moved_vessel_face = vessel_face.moved(Location((params_.R0, 0, 0)))
 
     with BuildPart() as vacum_chamber:
-        revolve(moved_vessel_face, axis=Axis.Y, revolution_arc=360)
+        revolve(vessel_face, axis=Axis.Y, revolution_arc=360)
 
     return vacum_chamber
 
