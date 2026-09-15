@@ -1,4 +1,4 @@
-#Toroidal field (TF) coil — a second torus-like shape that has to sit outside your vacuum vessel with a defined clearance gap
+#Toroidal field (TF) coil —  Magnet that wraps around the vacum chamber in a poloidal plane. Can be repeated and placed at different angle
 
 from params import *
 from build123d import *
@@ -14,10 +14,8 @@ gap_ : float = 5.0
 # R = 125 + 50 + 5 + 5 = 185
 
 print ("stoP")
-#TODO: use Miller points function to create the final toroidal coil geometry to optimize
 
 def toroidal_coil (vessel_params: TokamakParams, gap,conductor_radius:float, coil_thickness_in:float=0, coil_thickness_out:float=0):
-    #params_ = TokamakParams() #instiantate the class from params and calling the functions within the coil function, is it good practice?
     coilR0 = coil_R0(vessel_params)
     #coil_Re = coilR0 + vessel_params.alfa + vessel_params.thickness + gap
 
@@ -34,35 +32,10 @@ def toroidal_coil (vessel_params: TokamakParams, gap,conductor_radius:float, coi
 
     return single_tf_coil
 
+#Test the function
 params_ = TokamakParams(epsilon=0.4) #potentially I can declare a type TokamaksParams function with different epsilon =...
 conductor_r= 4.0
 TF_coil = toroidal_coil(params_,gap_, coil_thick_in, coil_thick_out, conductor_r)
 show(TF_coil) # remove the show, was done only for check practice
 
 print ("heyholetsgo")
-
-#Old code to create a revolution donut with a face
-
-#with BuildSketch() as coil_profile:
- #   with BuildLine():
-  #      Spline(*outer_points, periodic=True)
-   # outer_face = make_face()
-
-#with BuildSketch() as coil_profile_inner:
- #   with BuildLine():
-  #      Spline(*inner_points, periodic=True)
-   # inner_face = make_face()
-
-
-#with BuildPart() as coil:
- #   revolve(profiles=moved_coil_face, axis=Axis.Y, revolution_arc=360)
-
-#coil_face = outer_face - inner_face  # or Face subtraction, check exact API
-
-#moved_coil_face = coil_face.moved(Location((coil_Re, 0, 0)))
-
-#def build_tf_coil(vessel_params: TokamakParams, gap: float, coil_width: float, coil_height: float):
- #   R0 = coil_R0(vessel_params)
-  #  coil_center_radius = R0 + coil_bore_radius(vessel_params, gap)
-
-  #Claude proposes to change approach for the toroidal field coil and sweep along a single miller Dshape curve

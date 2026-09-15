@@ -21,4 +21,4 @@ def coil_bore_radius(vessel_params: TokamakParams, gap: float) -> float:
     # how far out the coil's cross-section center sits, measured from R0
     return vessel_params.alfa + vessel_params.thickness + gap
 
-#TODO: add thickness in and thickness out?
+#TODO: evalaute if to add thickness in and thickness out

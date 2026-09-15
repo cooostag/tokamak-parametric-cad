@@ -1,7 +1,4 @@
-#TODO: build here the Assembly
-#TODO2: Parametrize and write a function for cylindrical section creation in another file and import the function here to create ports
-
-
+#TODO: Parametrize and write a function for cylindrical section creation in another file and import the function here to create ports
 
 #Basic libraries
 from build123d import *
@@ -32,3 +29,5 @@ Assembly = Vacum_Chamber.part + TF_coil.part
 show(Vacum_Chamber, TF_coil, colors=["lightblue", "gold"], alphas=[1.0, 0.6])
 
 print ("success")
+
+#TODO: currently coil params is created in assembly with the computation of coil_alfa based on a arbitraty gap_ and the params of the vessel. This could be placed within a class

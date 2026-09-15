@@ -1,4 +1,4 @@
-#Toroidal field (TF) coil — a second torus-like shape that has to sit outside your vacuum vessel with a defined clearance gap
+#Poloidal field (TF) coil — a second torus-like shape that has to sit outside your vacuum vessel with a defined clearance gap
 
 from params import *
 from build123d import *
@@ -14,7 +14,6 @@ gap_ : float = 5.0
 # R = 125 + 50 + 5 + 5 = 185
 
 print ("stoP")
-#TODO: use Miller points function to create the final toroidal coil geometry to optimize
 
 def toroidal_coil (vessel_params: TokamakParams, gap, coil_thickness_in:float, coil_thickness_out:float):
     #params_ = TokamakParams() #instiantate the class from params and calling the functions within the coil function, is it good practice?
@@ -48,8 +47,3 @@ TF_coil = toroidal_coil(params_,gap_, coil_thick_in, coil_thick_out)
 show(TF_coil) # remove the show, was done only for check practice
 
 print ("heyholetsgo")
-
-
-#def build_tf_coil(vessel_params: TokamakParams, gap: float, coil_width: float, coil_height: float):
- #   R0 = coil_R0(vessel_params)
-  #  coil_center_radius = R0 + coil_bore_radius(vessel_params, gap)
