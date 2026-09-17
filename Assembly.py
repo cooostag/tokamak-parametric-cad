@@ -28,6 +28,13 @@ Assembly = Vacum_Chamber.part + TF_coil.part
 
 show(Vacum_Chamber, TF_coil, colors=["lightblue", "gold"], alphas=[1.0, 0.6])
 
-print ("success")
+# sanity check
 
+print (f"sanity check Coil RO = Vessel Ro {params_.R0 == Coil_params.R0} and coil_params.alfa > vessel_params.alfa {Coil_params.alfa > params_.alfa} ")
+
+distance = Vacum_Chamber.part.distance_to(TF_coil.part)  # confirm exact method name for your version
+print(f"Vessel–coil clearance: {distance:.2f}")
+assert distance > 0
+
+print ("success")
 #TODO: currently coil params is created in assembly with the computation of coil_alfa based on a arbitraty gap_ and the params of the vessel. This could be placed within a class
